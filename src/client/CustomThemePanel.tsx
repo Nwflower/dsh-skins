@@ -2,6 +2,7 @@ import { useEffect, useState, useSyncExternalStore, type ReactNode } from 'react
 import type { PropsLocale } from '@deepseek-ai/dsh-client-ui-slots'
 
 import type { CustomThemeController, CustomThemeScheme } from './custom-theme-controller.ts'
+import { StepperControl } from './StepperControl.tsx'
 import css from './skin-center.module.css'
 
 type ColorKey = 'accent' | 'background' | 'foreground'
@@ -164,24 +165,22 @@ export function CustomThemeCard(props: CustomThemeCardProps): ReactNode {
             {colorField('foreground', t('customThemeForeground'))}
           </div>
 
-          <label className={css.customThemeContrast}>
+          <div className={css.customThemeContrast}>
             <span className={css.backgroundHead}>
               <span className={css.customThemeFieldLabel}>{t('customThemeContrast')}</span>
-              <span className={css.backgroundValue} aria-hidden="true">{profile.contrast}</span>
+              <StepperControl
+                id="skin-center-custom-theme-contrast"
+                min={0}
+                max={100}
+                step={1}
+                unit="%"
+                value={profile.contrast}
+                disabled={disabled}
+                ariaLabel={t('customThemeContrast')}
+                onChange={(value) => { customTheme.setProfileValue(scheme, 'contrast', value) }}
+              />
             </span>
-            <input
-              className={css.backgroundRange}
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              value={profile.contrast}
-              aria-label={t('customThemeContrast')}
-              aria-valuetext={String(profile.contrast)}
-              disabled={disabled}
-              onChange={(event) => { customTheme.setProfileValue(scheme, 'contrast', Number(event.target.value)) }}
-            />
-          </label>
+          </div>
 
           <div className={css.customThemeFooter}>
             <span className={css.backgroundHintMuted}>{t('customThemeResetHint')}</span>

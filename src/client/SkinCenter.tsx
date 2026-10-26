@@ -28,7 +28,7 @@ import { ExternalWallpaperNotice } from './ExternalWallpaperNotice.tsx'
 import { DelegatedSkinCard } from './DelegatedSkinCard.tsx'
 import { createDelegatedSkinHandle, type DelegatedSkinHandle } from './delegated-skin-handle.ts'
 import { CustomThemeCard } from './CustomThemePanel.tsx'
-import { SliderControl } from './SliderControl.tsx'
+import { StepperControl } from './StepperControl.tsx'
 import css from './skin-center.module.css'
 
 /** Business face the skin-center apply() injects into the card. */
@@ -66,18 +66,6 @@ const INERT_DELEGATED = createDelegatedSkinHandle(
 )
 
 /**
- * Live-label helper: the shown value follows the in-drag thumb immediately,
- * and falls back to the store value once the store settles (issue #725).
- */
-function useLiveValue(value: number): [number, (v: number | null) => void] {
-  const [live, setLive] = useState<number | null>(null)
-  useEffect(() => {
-    setLive(null)
-  }, [value])
-  return [live ?? value, setLive]
-}
-
-/**
  * Render the skin-center card: a static header naming the plugin, with the
  * always-visible skin list (official default + every installed skin; try-on /
  * theme preview / one-click apply) rendered below it.
@@ -93,12 +81,6 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
   const inputCardBlur = useSyncExternalStore(background.subscribe, background.inputCardBlur)
   const bubbleOpacity = useSyncExternalStore(background.subscribe, background.bubbleOpacity)
   const bubbleBlur = useSyncExternalStore(background.subscribe, background.bubbleBlur)
-  const [shownOpacity, setShownOpacity] = useLiveValue(opacity)
-  const [shownBlurEmpty, setShownBlurEmpty] = useLiveValue(blurEmpty)
-  const [shownBlurContent, setShownBlurContent] = useLiveValue(blurContent)
-  const [shownInputCardBlur, setShownInputCardBlur] = useLiveValue(inputCardBlur)
-  const [shownBubbleOpacity, setShownBubbleOpacity] = useLiveValue(bubbleOpacity)
-  const [shownBubbleBlur, setShownBubbleBlur] = useLiveValue(bubbleBlur)
   const catalog = useSyncExternalStore(runtime.subscribe, runtime.catalog)
   // Delegated rows render as bars above the grid; the grid holds only the
   // asset skins this package loads, each with a preview image to show.
@@ -669,20 +651,17 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
                   <div className={css.backgroundRow}>
                     <div className={css.backgroundHead}>
                       <span className={css.backgroundLabel}>{t('backgroundOpacity')}</span>
-                      <span className={css.backgroundValue} aria-hidden="true">{shownOpacity}%</span>
+                      <StepperControl
+                        id="skin-center-background-opacity"
+                        min={0}
+                        max={100}
+                        step={5}
+                        unit="%"
+                        value={opacity}
+                        ariaLabel={t('backgroundOpacity')}
+                        onChange={(value) => { background.set(value) }}
+                      />
                     </div>
-                                        <SliderControl
-                      id="skin-center-background-opacity"
-                      className={css.backgroundRange}
-                      min={0}
-                      max={100}
-                      step={5}
-                      value={opacity}
-                      ariaValuetext={shownOpacity + '%'}
-                      ariaLabel={t('backgroundOpacity')}
-                      onChanging={setShownOpacity}
-                      onChange={(value) => { background.set(value) }}
-                    />
                     <p className={backdropActive ? css.backgroundHint : css.backgroundHintMuted}>
                       {backdropActive ? t('backgroundHint') : t('backgroundHintInert')}
                     </p>
@@ -690,99 +669,83 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
                   <div className={css.backgroundRow}>
                     <div className={css.backgroundHead}>
                       <span className={css.backgroundLabel}>{t('backgroundBlurEmpty')}</span>
-                      <span className={css.backgroundValue} aria-hidden="true">{shownBlurEmpty}px</span>
+                      <StepperControl
+                        id="skin-center-background-blur-empty"
+                        min={0}
+                        max={20}
+                        step={1}
+                        unit="px"
+                        value={blurEmpty}
+                        ariaLabel={t('backgroundBlurEmpty')}
+                        onChange={(value) => { background.setBlurEmpty(value) }}
+                      />
                     </div>
-                                        <SliderControl
-                      id="skin-center-background-blur-empty"
-                      className={css.backgroundRange}
-                      min={0}
-                      max={20}
-                      step={1}
-                      value={blurEmpty}
-                      ariaValuetext={shownBlurEmpty + 'px'}
-                      ariaLabel={t('backgroundBlurEmpty')}
-                      onChanging={setShownBlurEmpty}
-                      onChange={(value) => { background.setBlurEmpty(value) }}
-                    />
                     <div className={css.backgroundHead}>
                       <span className={css.backgroundLabel}>{t('backgroundBlurContent')}</span>
-                      <span className={css.backgroundValue} aria-hidden="true">{shownBlurContent}px</span>
+                      <StepperControl
+                        id="skin-center-background-blur-content"
+                        min={0}
+                        max={20}
+                        step={1}
+                        unit="px"
+                        value={blurContent}
+                        ariaLabel={t('backgroundBlurContent')}
+                        onChange={(value) => { background.setBlurContent(value) }}
+                      />
                     </div>
-                                        <SliderControl
-                      id="skin-center-background-blur-content"
-                      className={css.backgroundRange}
-                      min={0}
-                      max={20}
-                      step={1}
-                      value={blurContent}
-                      ariaValuetext={shownBlurContent + 'px'}
-                      ariaLabel={t('backgroundBlurContent')}
-                      onChanging={setShownBlurContent}
-                      onChange={(value) => { background.setBlurContent(value) }}
-                    />
                     <p className={backdropActive ? css.backgroundHint : css.backgroundHintMuted}>
                       {backdropActive ? t('backgroundBlurHint') : t('backgroundBlurInert')}
                     </p>
                   </div>
 
-
                   <div className={css.backgroundRow}>
                     <div className={css.backgroundHead}>
                       <span className={css.backgroundLabel}>{t('inputCardBlur')}</span>
-                      <span className={css.backgroundValue} aria-hidden="true">{shownInputCardBlur}px</span>
+                      <StepperControl
+                        id="skin-center-input-card-blur"
+                        min={0}
+                        max={20}
+                        step={1}
+                        unit="px"
+                        value={inputCardBlur}
+                        ariaLabel={t('inputCardBlur')}
+                        onChange={(value) => { background.setInputCardBlur(value) }}
+                      />
                     </div>
-                                        <SliderControl
-                      id="skin-center-input-card-blur"
-                      className={css.backgroundRange}
-                      min={0}
-                      max={20}
-                      step={1}
-                      value={inputCardBlur}
-                      ariaValuetext={shownInputCardBlur + 'px'}
-                      ariaLabel={t('inputCardBlur')}
-                      onChanging={setShownInputCardBlur}
-                      onChange={(value) => { background.setInputCardBlur(value) }}
-                    />
                     <p className={css.backgroundHint}>{t('inputCardBlurHint')}</p>
                   </div>
 
                   <div className={css.backgroundRow}>
                     <div className={css.backgroundHead}>
                       <span className={css.backgroundLabel}>{t('bubbleOpacity')}</span>
-                      <span className={css.backgroundValue} aria-hidden="true">{shownBubbleOpacity}%</span>
+                      <StepperControl
+                        id="skin-center-bubble-opacity"
+                        min={0}
+                        max={100}
+                        step={5}
+                        unit="%"
+                        value={bubbleOpacity}
+                        ariaLabel={t('bubbleOpacity')}
+                        onChange={(value) => { background.setBubbleOpacity(value) }}
+                      />
                     </div>
-                                        <SliderControl
-                      id="skin-center-bubble-opacity"
-                      className={css.backgroundRange}
-                      min={0}
-                      max={100}
-                      step={5}
-                      value={bubbleOpacity}
-                      ariaValuetext={shownBubbleOpacity + '%'}
-                      ariaLabel={t('bubbleOpacity')}
-                      onChanging={setShownBubbleOpacity}
-                      onChange={(value) => { background.setBubbleOpacity(value) }}
-                    />
                     <p className={css.backgroundHint}>{t('bubbleOpacityHint')}</p>
                   </div>
 
                   <div className={css.backgroundRow}>
                     <div className={css.backgroundHead}>
                       <span className={css.backgroundLabel}>{t('bubbleBlur')}</span>
-                      <span className={css.backgroundValue} aria-hidden="true">{shownBubbleBlur}px</span>
+                      <StepperControl
+                        id="skin-center-bubble-blur"
+                        min={0}
+                        max={20}
+                        step={1}
+                        unit="px"
+                        value={bubbleBlur}
+                        ariaLabel={t('bubbleBlur')}
+                        onChange={(value) => { background.setBubbleBlur(value) }}
+                      />
                     </div>
-                    <SliderControl
-                      id="skin-center-bubble-blur"
-                      className={css.backgroundRange}
-                      min={0}
-                      max={20}
-                      step={1}
-                      value={bubbleBlur}
-                      ariaValuetext={shownBubbleBlur + 'px'}
-                      ariaLabel={t('bubbleBlur')}
-                      onChanging={setShownBubbleBlur}
-                      onChange={(value) => { background.setBubbleBlur(value) }}
-                    />
                     <p className={css.backgroundHint}>{t('bubbleBlurHint')}</p>
                   </div>
 

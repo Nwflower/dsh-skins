@@ -15,17 +15,11 @@ body[data-dsh-skin-center] .sectionList {
   padding: 0;
 }
 
-/* The plugin card itself: one disclosure card in the Web UI plugin group. */
+/* The plugin page itself: no outer frame. The settings page is one flat
+   column of groups divided by hairlines (the sparse reference layout), not a
+   card inside the settings panel. */
 body[data-dsh-skin-center] .pluginCard {
   list-style: none;
-  border: 1px solid var(--dsw-alias-border-l2);
-  border-radius: 12px;
-  background: var(--dsw-alias-bg-layer-3);
-  transition: border-color 0.16s, background 0.16s;
-}
-
-body[data-dsh-skin-center] .pluginCard:hover {
-  border-color: var(--dsw-alias-label-dimmed);
 }
 
 body[data-dsh-skin-center] .cardHeaderStatic {
@@ -33,7 +27,7 @@ body[data-dsh-skin-center] .cardHeaderStatic {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 18px 20px;
+  padding: 0 0 4px;
 }
 
 body[data-dsh-skin-center] .headText {
@@ -61,49 +55,16 @@ body[data-dsh-skin-center] .cardDescription {
 }
 
 body[data-dsh-skin-center] .cardBody {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.85fr);
-  gap: 18px 20px;
-  align-items: start;
-  padding: 16px 0 12px;
-  margin: 0 20px;
-  border-top: 1px solid var(--dsw-alias-border-l2);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: stretch;
+  padding: 0;
+  margin: 0;
 }
 
 body[data-dsh-skin-center] .cardBody > * {
   min-width: 0;
-}
-
-body[data-dsh-skin-center] .cardBody > .enableRow,
-body[data-dsh-skin-center] .cardBody > .externalWallpaperNotice,
-body[data-dsh-skin-center] .cardBody > .error,
-body[data-dsh-skin-center] .cardBody > .offNote {
-  grid-column: 1 / -1;
-}
-
-body[data-dsh-skin-center] .cardBody > .head,
-body[data-dsh-skin-center] .cardBody > .list {
-  grid-column: 1;
-}
-
-body[data-dsh-skin-center] .cardBody > .backgroundRow {
-  grid-column: 2;
-  padding: 14px 16px;
-  border: 1px solid var(--dsw-alias-border-l2);
-  border-radius: 10px;
-  background: var(--dsw-alias-bg-layer-1);
-}
-
-@container (max-width: 620px) {
-  body[data-dsh-skin-center] .cardBody {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  body[data-dsh-skin-center] .cardBody > .head,
-  body[data-dsh-skin-center] .cardBody > .list,
-  body[data-dsh-skin-center] .cardBody > .backgroundRow {
-    grid-column: 1;
-  }
 }
 
 /* Delegated skin row: a skin whose visual is another plugin's. It is a
@@ -160,10 +121,10 @@ body[data-dsh-skin-center] .externalWallpaperNotice {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 14px 16px;
-  border-radius: 8px;
-  background: var(--dsw-alias-bg-layer-2);
-  border: 1px solid var(--dsw-alias-state-warning-tertiary, #feebd3);
+  /* A notice band, not a box: one warning-colored rule on the left carries the
+     state, and the page keeps its flat hairline rhythm around it. */
+  padding: 8px 0 8px 14px;
+  border-left: 2px solid var(--dsw-alias-state-warning-primary, #b06000);
 }
 
 body[data-dsh-skin-center] .externalWallpaperTitle {
@@ -237,6 +198,7 @@ body[data-dsh-skin-center] .head {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding: 6px 0 0;
 }
 
 body[data-dsh-skin-center] .titleBadge {
@@ -356,6 +318,8 @@ body[data-dsh-skin-center] .list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--dsw-alias-border-l2);
 }
 
 body[data-dsh-skin-center] .card {
@@ -583,10 +547,7 @@ body[data-dsh-skin-center] .actionRow {
 body[data-dsh-skin-center] .verifySummary {
   font-size: 12px;
   line-height: 1.4;
-  padding: 6px 12px;
-  border-radius: 6px;
-  background: var(--dsw-alias-bg-layer-2);
-  border: 1px solid var(--dsw-alias-border-l2);
+  padding: 6px 0;
 }
 
 body[data-dsh-skin-center] .verifySummarySuccess {
@@ -716,16 +677,24 @@ body[data-dsh-skin-center] .offNote {
   color: var(--dsw-alias-label-secondary, #6b7280);
 }
 
+/* One settings group: label + control on one line, hint underneath, and a
+   hairline to the next group. No box around it: the page is divided by lines,
+   not by cards. */
 body[data-dsh-skin-center] .backgroundRow {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px 0;
+  gap: 6px;
+  padding: 16px 0;
+}
+
+body[data-dsh-skin-center] .head + .backgroundRow,
+body[data-dsh-skin-center] .backgroundRow + .backgroundRow {
+  border-top: 1px solid var(--dsw-alias-border-l2);
 }
 
 body[data-dsh-skin-center] .backgroundHead {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
 }
 
@@ -743,6 +712,78 @@ body[data-dsh-skin-center] .backgroundValue {
   line-height: 18px;
   font-variant-numeric: tabular-nums;
   color: var(--dsw-alias-brand-primary, #2b7cd9);
+}
+
+/* Numeric stepper: same geometry and chrome as the harness's font-size
+   setting — a 36px grey plate, current value, stacked arrows and unit. */
+body[data-dsh-skin-center] .stepperControl {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+body[data-dsh-skin-center] .stepper {
+  display: flex;
+  align-items: center;
+  min-width: 72px;
+  height: 36px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--dsw-alias-label-primary, #131416) 4.5%, transparent);
+  color: var(--dsw-alias-label-primary, #131416);
+}
+
+body[data-dsh-skin-center] .stepperValue {
+  min-width: 18px;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+body[data-dsh-skin-center] .stepperArrows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 2px;
+  height: 26px;
+}
+
+body[data-dsh-skin-center] .stepperArrow {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--dsw-alias-label-primary, #131416) 3%, transparent);
+  color: var(--dsw-alias-label-primary, #131416);
+  cursor: pointer;
+}
+
+body[data-dsh-skin-center] .stepperArrow:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--dsw-alias-label-primary, #131416) 9%, transparent);
+}
+
+body[data-dsh-skin-center] .stepperArrow:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary, #2b7cd9);
+  outline-offset: 1px;
+}
+
+body[data-dsh-skin-center] .stepperArrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+body[data-dsh-skin-center] .stepperUnit {
+  color: var(--dsw-alias-label-secondary, #656869);
+  font-size: 14px;
+  line-height: 22px;
 }
 
 body[data-dsh-skin-center] .backgroundRange {
@@ -940,15 +981,15 @@ body[data-dsh-skin-center] .customThemeCard {
   overflow: hidden;
 }
 
+/* The custom-theme editor opens below the row as a flat block: a hairline and
+   whitespace instead of a second box inside the card. */
 body[data-dsh-skin-center] .customThemeEditor {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin: 2px -2px -2px;
-  padding: 14px;
-  border: 1px solid var(--dsw-alias-border-l2);
-  border-radius: 9px;
-  background: var(--dsw-alias-bg-layer-1);
+  margin: 0;
+  padding: 14px 0 2px;
+  border-top: 1px solid var(--dsw-alias-border-l2);
 }
 
 body[data-dsh-skin-center] .customThemeScheme {

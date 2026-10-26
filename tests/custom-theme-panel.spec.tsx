@@ -87,7 +87,9 @@ describe('CustomThemeCard', () => {
 
     expect(host.querySelectorAll('input[type="color"]')).toHaveLength(3)
     expect(host.querySelectorAll('input[type="text"]')).toHaveLength(3)
-    expect(host.querySelector('input[type="range"]')?.getAttribute('max')).toBe('100')
+    expect(host.querySelector('input[type="range"]')).toBeNull()
+    expect(host.querySelector('#skin-center-custom-theme-contrast')?.getAttribute('aria-label')).toBe('对比度')
+    expect(host.querySelector('button[aria-label="对比度 +1"]')).not.toBeNull()
     expect(host.textContent).toContain('恢复当前模式默认')
   })
 

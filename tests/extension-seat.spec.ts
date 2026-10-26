@@ -32,7 +32,29 @@ describe('Skin Center extension seat', () => {
     } as never)
     expect(registered[0]?.options).toMatchObject({ name: 'settings.section', id: 'skin-center', order: 120 })
 
-    service = { sectionId: 'web-ui-plugins', open: () => true }
+    service = {
+      sectionId: 'web-ui-plugins',
+      open: () => true,
+      registerPage: (page: Record<string, unknown>) => {
+        const entry = {
+          options: {
+            name: 'web-ui.extension',
+            key: page.key,
+            locale: page.locale,
+            inject: page.inject,
+            children: page.children,
+          },
+          component,
+        }
+        registered.push(entry)
+        changed?.()
+        return () => {
+          const index = registered.indexOf(entry)
+          if (index >= 0) registered.splice(index, 1)
+          changed?.()
+        }
+      },
+    }
     changed?.()
     expect(registered).toHaveLength(1)
     expect(registered[0]?.options).toMatchObject({ name: 'web-ui.extension', key: 'skin-center' })
