@@ -28,6 +28,7 @@ import { ExternalWallpaperNotice } from './ExternalWallpaperNotice.tsx'
 import { DelegatedSkinCard } from './DelegatedSkinCard.tsx'
 import { createDelegatedSkinHandle, type DelegatedSkinHandle } from './delegated-skin-handle.ts'
 import { CustomThemeCard } from './CustomThemePanel.tsx'
+import { SegmentGroup } from './SegmentGroup.tsx'
 import { StepperControl } from './StepperControl.tsx'
 import css from './skin-center.module.css'
 
@@ -576,24 +577,13 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
                     <div className={css.toolbar}>
                       <div className={css.themeRow}>
                         <span className={css.themeLabel}>{t('theme')}</span>
-                        <div className={css.segmentGroup} role="group" aria-label={t('theme')}>
-                          <button
-                            type="button"
-                            className={dark ? css.segmentButton : `${css.segmentButton} ${css.segmentButtonActive}`}
-                            aria-pressed={!dark}
-                            onClick={() => { theme.setTheme('light') }}
-                          >
-                            {t('themeLight')}
-                          </button>
-                          <button
-                            type="button"
-                            className={dark ? `${css.segmentButton} ${css.segmentButtonActive}` : css.segmentButton}
-                            aria-pressed={dark}
-                            onClick={() => { theme.setTheme('dark') }}
-                          >
-                            {t('themeDark')}
-                          </button>
-                        </div>
+                        <SegmentGroup
+                          label={t('theme')}
+                          options={[
+                            { key: 'light', label: t('themeLight'), active: !dark, onSelect: () => { theme.setTheme('light') } },
+                            { key: 'dark', label: t('themeDark'), active: dark, onSelect: () => { theme.setTheme('dark') } },
+                          ]}
+                        />
                       </div>
                       <div className={css.actionRow}>
                       <button

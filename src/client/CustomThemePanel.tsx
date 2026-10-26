@@ -2,6 +2,7 @@ import { useEffect, useState, useSyncExternalStore, type ReactNode } from 'react
 import type { PropsLocale } from '@deepseek-ai/dsh-client-ui-slots'
 
 import type { CustomThemeController, CustomThemeScheme } from './custom-theme-controller.ts'
+import { SegmentGroup } from './SegmentGroup.tsx'
 import { StepperControl } from './StepperControl.tsx'
 import css from './skin-center.module.css'
 
@@ -137,26 +138,13 @@ export function CustomThemeCard(props: CustomThemeCardProps): ReactNode {
         <div className={css.customThemeEditor}>
           <div className={css.customThemeScheme}>
             <span className={css.themeLabel}>{t('customThemeMode')}</span>
-            <div className={css.segmentGroup} role="group" aria-label={t('customThemeMode')}>
-              <button
-                type="button"
-                aria-pressed={scheme === 'light'}
-                className={`${css.segmentButton} ${scheme === 'light' ? css.segmentButtonActive : ''}`}
-                disabled={disabled}
-                onClick={() => { setScheme('light') }}
-              >
-                {t('customThemeLight')}
-              </button>
-              <button
-                type="button"
-                aria-pressed={scheme === 'dark'}
-                className={`${css.segmentButton} ${scheme === 'dark' ? css.segmentButtonActive : ''}`}
-                disabled={disabled}
-                onClick={() => { setScheme('dark') }}
-              >
-                {t('customThemeDark')}
-              </button>
-            </div>
+            <SegmentGroup
+              label={t('customThemeMode')}
+              options={[
+                { key: 'light', label: t('customThemeLight'), active: scheme === 'light', disabled, onSelect: () => { setScheme('light') } },
+                { key: 'dark', label: t('customThemeDark'), active: scheme === 'dark', disabled, onSelect: () => { setScheme('dark') } },
+              ]}
+            />
           </div>
 
           <div className={css.customThemeFields}>
