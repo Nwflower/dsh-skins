@@ -15,7 +15,7 @@ English | [中文](README.zh.md)
   <em>Themes & Skins · Frosted Glass Blur · Custom Themes · Live Try-On · Wallpaper Engine via its dedicated plugin</em>
 </p>
 
-`@linxin666/dsh-client-ui-skin-center` (cordis plugin id `ui-skin-center`) is the single skin package of the dsh Web GUI: it puts the skin list / try-on / apply into the real GUI as the first-level Skin Center settings section (settings → 皮肤中心, listing only installed skins), and it is the only loader and renderer for skins. A skin is a pure asset directory — no package.json, no npm publish, no cordis wiring — that couples only to the skin-center contract (`contracts/`); the skin center absorbs every official-DSH coupling behind that contract. The card carries its own enable switch (off disables try-on, apply and the background controls).
+`@linxin666/dsh-client-ui-skin-center` (cordis plugin id `ui-skin-center`) is the single skin package of the dsh Web GUI: it puts the skin list / try-on / apply into the real GUI as the Skins TAB under Settings → Web Extensions (or a standalone first-level Skin Center section without that parent), listing only installed skins, and it is the only loader and renderer for skins. A skin is a pure asset directory — no package.json, no npm publish, no cordis wiring — that couples only to the skin-center contract (`contracts/`); the skin center absorbs every official-DSH coupling behind that contract. The card carries its own enable switch (off disables try-on, apply and the background controls).
 
 - List: shows "官方默认" (official default) plus every installed skin in the catalog with its name, tagline and accent color; the currently active target carries the Active marker. The catalog merges two sources: the default skin shipped inside this package (`skins/blue-fantasy/`) and user skins dropped into `$DSH_HOME/skins/<id>/` (a user skin with the same id shadows the built-in one). Every other skin of the collection is a market item: install it on demand from the DSH Market store (one-click install) into `$DSH_HOME/skins/<id>/`, where this same catalog manages it as a user skin — no restart, reopen the card or reload to pick it up. Skins whose `skin.json` fails validation are excluded fail-closed and reported as catalog diagnostics.
 - Custom theme: the final card is a user-level theme derived from the official stock look, separate from both the official-default card and catalog skins. Light and dark profiles independently edit accent, background, foreground and contrast (0–100), with live try-on, apply, current-mode reset and reload persistence. Its generated CSS is limited to an audited official-token allowlist; it cannot accept selectors, arbitrary CSS or asset URLs. Catalog skin definitions are never modified, and an active catalog skin automatically suppresses the custom-theme layer.
@@ -69,7 +69,7 @@ skin-center is a self-contained bundle meeting the official DSH plugin standard 
 
 Wallpaper Engine support is **not bundled** here. It lives in its own plugin, [dsh-wallpaper-engine](https://github.com/elysia395/dsh-wallpaper-engine) (`dsh-plugin-wallpaper-engine`), which owns the wallpaper library, the video / web / scene rendering paths, the wallpaper settings surface and the glass over the wallpaper. It is the **recommended** Workshop item for wallpapers, and the skin center card installs it for you.
 
-**One-click install**: open 设置 → 皮肤中心 and press **Install** on the card's wallpaper notice. The install goes through whichever plugin-management face the running host publishes — the official in-process plugin manager when it is there (the same call the official Plugins page makes, and the only writer on the packaged Desktop client), otherwise the family plugin-manager face. A host that publishes neither keeps the copy-command fallback.
+**One-click install**: open 设置 → Web 扩展 → 皮肤 and press **Install** on the card's wallpaper notice. The install goes through whichever plugin-management face the running host publishes — the official in-process plugin manager when it is there (the same call the official Plugins page makes, and the only writer on the packaged Desktop client), otherwise the family plugin-manager face. A host that publishes neither keeps the copy-command fallback.
 
 By hand, the equivalent is:
 
@@ -183,7 +183,7 @@ skins/skin-center/
 
 ## Acceptance checklist
 
-- [x] The skin-center section appears in 设置 → 皮肤中心 without console errors
+- [x] The skin-center section appears in 设置 → Web 扩展 → 皮肤 without console errors
 - [x] The list shows the official default plus every catalog skin; the active one is marked; invalid skins surface as diagnostics
 - [x] Try-on takes effect immediately and Exit restores the committed skin; only one skin is ever on the page
 - [x] One-click apply switches atomically with no reload; a later page load boots straight into the skin (no FOUC)

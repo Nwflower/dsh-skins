@@ -553,7 +553,7 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
   }
 
   return (
-    <li className={css.pluginCard}>
+    <li className={css.pluginCard} data-dsh-plugin="skin-center" data-dsh-part="panel">
       <div className={css.cardHeaderStatic}>
         <span className={css.headText}>
           <span className={css.pluginName}>
@@ -594,20 +594,24 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
                     <div className={css.toolbar}>
                       <div className={css.themeRow}>
                         <span className={css.themeLabel}>{t('theme')}</span>
-                        <button
-                          type="button"
-                          className={`${css.themeButton} ${dark ? '' : css.themeButtonActive}`}
-                          onClick={() => { theme.setTheme('light') }}
-                        >
-                          {t('themeLight')}
-                        </button>
-                        <button
-                          type="button"
-                          className={`${css.themeButton} ${dark ? css.themeButtonActive : ''}`}
-                          onClick={() => { theme.setTheme('dark') }}
-                        >
-                          {t('themeDark')}
-                        </button>
+                        <div className={css.segmentGroup} role="group" aria-label={t('theme')}>
+                          <button
+                            type="button"
+                            className={dark ? css.segmentButton : `${css.segmentButton} ${css.segmentButtonActive}`}
+                            aria-pressed={!dark}
+                            onClick={() => { theme.setTheme('light') }}
+                          >
+                            {t('themeLight')}
+                          </button>
+                          <button
+                            type="button"
+                            className={dark ? `${css.segmentButton} ${css.segmentButtonActive}` : css.segmentButton}
+                            aria-pressed={dark}
+                            onClick={() => { theme.setTheme('dark') }}
+                          >
+                            {t('themeDark')}
+                          </button>
+                        </div>
                       </div>
                       <div className={css.actionRow}>
                       <button
@@ -959,7 +963,7 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
 
 /** Props the settings section binds for the skin-center card page. */
 export type SkinCenterSectionProps =
-  PropsRuntime<'settings.section'>
+  (PropsRuntime<'settings.section'> | PropsRuntime<'web-ui.extension'>)
   & PropsLocale<'skinCenter'>
   & SkinCenterInjected
 

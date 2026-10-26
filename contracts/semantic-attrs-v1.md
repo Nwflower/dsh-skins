@@ -124,6 +124,9 @@ family / 插件区域：
 | `summon-button` | pet | 召唤钮；`[data-testid="pet-summon"]` |
 | `preset-panel` | preset-center | 创意工坊「预设」标签页面板根；`[data-dsh-plugin="preset-center"] [data-dsh-part="preset-panel"]` |
 | `plugin-item` | web-ui-settings | 家族插件设置卡；`[data-slot="web-ui.plugin.item"]` 内 entry |
+| `extensions` | web-ui-settings | 「Web 扩展」父级根；一级 `settings.section` id `web-ui-plugins` 的内容容器 |
+| `tabs` / `tab` / `panel` | web-ui-settings | 「Web 扩展」二级 TAB 导航、TAB 按钮与当前页面容器；`[role="tablist"]` / `[role="tab"]` / `[role="tabpanel"]` |
+| `panel` | skin-center | 皮肤设置卡根；`[data-dsh-plugin="skin-center"][data-dsh-part="panel"]` |
 | `tab-bar` / `tab` | skill-explorer | 技能中心页签条/页签（中间列面板，同 ssh）；`[data-dsh-plugin="skill-explorer"] [data-dsh-part="tab-bar"]` / `[data-dsh-plugin="skill-explorer"] [data-dsh-part="tab"]` |
 | `skill-row` | skill-explorer | 技能卡行；`[data-dsh-plugin="skill-explorer"] [data-dsh-part="skill-row"]` |
 | `filter-bar` | skill-explorer | 技能列表筛选条（搜索框 + 工作区选择 + 刷新）；`[data-dsh-plugin="skill-explorer"] [data-dsh-part="filter-bar"]` |
@@ -195,16 +198,16 @@ shell 的 `[class*="panelGlyph"]` 内）。shell 目前不把 entry id 透传到
 | `task-board` | dsh-task-board | `[data-dsh-taskboard-view]` / 面板行字形 `[data-dsh-panel-entry="task-board"]` / `sidebar.panellist` entry id |
 | `ssh` | dsh-ssh | `[data-dsh-ssh-view]` / 面板行字形 `[data-dsh-panel-entry="ssh"]` |
 | `git-graph` | dsh-git-graph | slot entry id `git-graph`；`[data-gitgraph-chip-anchor]` / `[data-gitgraph-dialog]` |
-| `pet` | dsh-pet | `[data-dsh-pet-root]`；一级设置分区 settings.section id `pet`（只列内置与已安装宠物） |
+| `pet` | dsh-pet | `[data-dsh-pet-root]`；设置页 `[data-dsh-plugin="pet"]`（Web 扩展 keyed id `pet`，独立安装时为一级 settings.section id `pet`，只列内置与已安装宠物） |
 | `remote-web-ui` | dsh-remote-web-ui | slot entry id `remote-web-ui` |
 | `update` | dsh-update | footer action slot entry id `update`；`[data-dsh-plugin="update"]`（面板根 + 入口触发器） |
-| `web-ui-settings` | dsh-web-settings | settings.section id `web-ui-plugins` |
+| `web-ui-settings` | dsh-web-settings | 一级 settings.section id `web-ui-plugins`；`[data-dsh-plugin="web-ui-settings"][data-dsh-part="extensions"]` 父级根 |
 | `skill-explorer` | dsh-skill-explorer | `[data-dsh-skill-explorer-view]` / 面板行字形 `[data-dsh-panel-entry="skill-explorer"]` |
-| `dsh-web-ui-market` | dsh-market | 创意工坊商店一级页（settings.section id `dsh-web-ui-market`），商店卡与目录条目容器 |
-| `skin-center` | skins/skin-center | 一级设置分区 settings.section id `skin-center`（列已安装皮肤，属内置源时显式标记） |
+| `dsh-web-ui-market` | dsh-market | 创意工坊商店页 `[data-dsh-plugin="dsh-web-ui-market"]`（Web 扩展 keyed id `dsh-workshop`，独立安装时为一级 settings.section id `dsh-workshop`），商店卡与目录条目容器 |
+| `skin-center` | skins/skin-center | 设置卡 `[data-dsh-plugin="skin-center"]`（Web 扩展 keyed id `skin-center`，独立安装时为一级 settings.section id `skin-center`，列已安装皮肤，属内置源时显式标记） |
 | `session-id` | dsh-session-id | footer action slot entry id `session-id`；`[data-dsh-plugin="session-id"]`（面板 overlay 根 + 入口触发器） |
 | `message-edit` | dsh-message-edit | `conversation.chat.turnTail` slot entry id `message-edit`；`[data-dsh-plugin="message-edit"]`（触发按钮 + 内联编辑器根） |
-| `usage` | dsh-usage | 一级设置分区 settings.section id `dsh-usage`（创意工坊下方）；`[data-dsh-plugin="usage"]`；侧栏底部速览卡容器 `[data-dsh-usage-foot-card]` |
+| `usage` | dsh-usage | 设置页 `[data-dsh-plugin="usage"]`（Web 扩展 keyed id `dsh-usage`，独立安装时为一级 settings.section id `dsh-usage`）；侧栏底部速览卡容器 `[data-dsh-usage-foot-card]` |
 | `preset-center` | dsh-preset-center | 创意工坊卡片的「预设」标签页面板（`dsh-workshop.panel` keyed 槽 key `preset`）；`[data-dsh-plugin="preset-center"]` |
 | `liangshen` | dsh-liangshen | 首页输入框内的梁神模式拨杆；`[data-dsh-plugin="liangshen"][data-dsh-part="lever"]`，slot entry id `liangshen-lever` |
 | `browser-view` | dsh-browser-view | 右栏标签页类型 id `@linxin666/dsh-client-ui-browser-view`（`sidebar.right.pane.tab` 与 `.title` 的 key）；`[data-dsh-plugin="browser-view"]`（面板根 + 会话头触发器）；chip 内自有部分 `[data-dsh-part="tab-title"]` |

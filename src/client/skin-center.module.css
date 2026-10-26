@@ -9,6 +9,7 @@
 
 /* The section wrapper: one list that stacks the skin-center card rows. */
 body[data-dsh-skin-center] .sectionList {
+  container-type: inline-size;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -32,13 +33,13 @@ body[data-dsh-skin-center] .cardHeaderStatic {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 14px 16px;
+  padding: 18px 20px;
 }
 
 body[data-dsh-skin-center] .headText {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
   min-width: 0;
 }
@@ -54,18 +55,55 @@ body[data-dsh-skin-center] .pluginName {
 }
 
 body[data-dsh-skin-center] .cardDescription {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
 }
 
 body[data-dsh-skin-center] .cardBody {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px 0 8px;
-  margin: 0 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.85fr);
+  gap: 18px 20px;
+  align-items: start;
+  padding: 16px 0 12px;
+  margin: 0 20px;
   border-top: 1px solid var(--dsw-alias-border-l2);
+}
+
+body[data-dsh-skin-center] .cardBody > * {
+  min-width: 0;
+}
+
+body[data-dsh-skin-center] .cardBody > .enableRow,
+body[data-dsh-skin-center] .cardBody > .externalWallpaperNotice,
+body[data-dsh-skin-center] .cardBody > .error,
+body[data-dsh-skin-center] .cardBody > .offNote {
+  grid-column: 1 / -1;
+}
+
+body[data-dsh-skin-center] .cardBody > .head,
+body[data-dsh-skin-center] .cardBody > .list {
+  grid-column: 1;
+}
+
+body[data-dsh-skin-center] .cardBody > .backgroundRow {
+  grid-column: 2;
+  padding: 14px 16px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 10px;
+  background: var(--dsw-alias-bg-layer-1);
+}
+
+@container (max-width: 620px) {
+  body[data-dsh-skin-center] .cardBody {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body[data-dsh-skin-center] .cardBody > .head,
+  body[data-dsh-skin-center] .cardBody > .list,
+  body[data-dsh-skin-center] .cardBody > .backgroundRow {
+    grid-column: 1;
+  }
 }
 
 /* Delegated skin row: a skin whose visual is another plugin's. It is a
@@ -121,16 +159,17 @@ body[data-dsh-skin-center] .delegatedLink {
 body[data-dsh-skin-center] .externalWallpaperNotice {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px 12px;
+  gap: 8px;
+  padding: 14px 16px;
   border-radius: 8px;
   background: var(--dsw-alias-bg-layer-2);
   border: 1px solid var(--dsw-alias-state-warning-tertiary, #feebd3);
 }
 
 body[data-dsh-skin-center] .externalWallpaperTitle {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
   color: var(--dsw-alias-state-warning-primary, #b06000);
 }
 
@@ -147,9 +186,10 @@ body[data-dsh-skin-center] .externalWallpaperBadge {
 }
 
 body[data-dsh-skin-center] .externalWallpaperBody {
+  max-width: 62ch;
   margin: 0;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 18px;
   color: var(--dsw-alias-label-secondary, #6b7280);
 }
 
@@ -206,8 +246,8 @@ body[data-dsh-skin-center] .titleBadge {
 }
 
 body[data-dsh-skin-center] .intro {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 18px;
   color: var(--dsw-alias-label-secondary);
 }
 
@@ -259,6 +299,59 @@ body[data-dsh-skin-center] .themeButtonActive {
   color: var(--dsw-alias-brand-primary, #1e63b8);
 }
 
+/* Theme mode and custom-theme scheme: every choice stays visible in a quiet
+   inset track. Maintenance buttons keep the outlined `.themeButton` chrome. */
+body[data-dsh-skin-center] .segmentGroup {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 9px;
+  background: var(--dsw-alias-bg-layer-2);
+}
+
+body[data-dsh-skin-center] .segmentButton {
+  appearance: none;
+  margin: 0;
+  padding: 4px 13px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+body[data-dsh-skin-center] .segmentButton:hover:not(:disabled):not(.segmentButtonActive) {
+  color: var(--dsw-alias-label-primary);
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 5%, transparent);
+}
+
+body[data-dsh-skin-center] .segmentButtonActive {
+  color: var(--dsw-alias-label-primary);
+  background: color-mix(in srgb, var(--dsw-alias-label-primary) 9%, var(--dsw-alias-bg-layer-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dsw-alias-label-primary) 9%, transparent),
+    0 1px 2px rgb(0 0 0 / 10%);
+}
+
+body[data-dsh-skin-center] .segmentButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary, #2b7cd9);
+  outline-offset: 1px;
+}
+
+body[data-dsh-skin-center] .segmentButton:disabled {
+  color: var(--dsw-alias-label-tertiary, #9aa4b5);
+  cursor: default;
+  opacity: 0.65;
+}
+
 body[data-dsh-skin-center] .list {
   display: flex;
   flex-direction: column;
@@ -285,7 +378,7 @@ body[data-dsh-skin-center] .card:hover {
    card bottom so rows stay aligned. */
 body[data-dsh-skin-center] .skinGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px 16px;
 }
 
@@ -544,25 +637,35 @@ body[data-dsh-skin-center] .error {
 }
 
 body[data-dsh-skin-center] .enableRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 0;
+  gap: 4px 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--dsw-alias-border-l2);
+}
+
+body[data-dsh-skin-center] .enableRow .switch {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 body[data-dsh-skin-center] .enableLabel {
-  font-size: 13px;
-  font-weight: 500;
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
   color: var(--dsw-alias-label-primary);
 }
 
 body[data-dsh-skin-center] .enableHint {
-  flex: 1;
-  min-width: 100%;
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
   margin: 0;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 18px;
   color: var(--dsw-alias-label-secondary, #6b7280);
 }
 
@@ -616,19 +719,20 @@ body[data-dsh-skin-center] .offNote {
 body[data-dsh-skin-center] .backgroundRow {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   padding: 8px 0;
 }
 
 body[data-dsh-skin-center] .backgroundHead {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 8px;
 }
 
 body[data-dsh-skin-center] .backgroundLabel {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
   color: var(--dsw-alias-label-primary);
 }
 
@@ -636,6 +740,7 @@ body[data-dsh-skin-center] .backgroundValue {
   flex: none;
   margin-left: auto;
   font-size: 12px;
+  line-height: 18px;
   font-variant-numeric: tabular-nums;
   color: var(--dsw-alias-brand-primary, #2b7cd9);
 }
@@ -703,14 +808,16 @@ body[data-dsh-skin-center] .backgroundRange:focus-visible {
 }
 
 body[data-dsh-skin-center] .backgroundHint {
+  margin: 0;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 18px;
   color: var(--dsw-alias-label-secondary, #6b7280);
 }
 
 body[data-dsh-skin-center] .backgroundHintMuted {
+  margin: 0;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 18px;
   color: var(--dsw-alias-label-tertiary, #9aa4b5);
 }
 

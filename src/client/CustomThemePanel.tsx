@@ -134,26 +134,28 @@ export function CustomThemeCard(props: CustomThemeCardProps): ReactNode {
 
       {expanded && (
         <div className={css.customThemeEditor}>
-          <div className={css.customThemeScheme} role="group" aria-label={t('customThemeMode')}>
+          <div className={css.customThemeScheme}>
             <span className={css.themeLabel}>{t('customThemeMode')}</span>
-            <button
-              type="button"
-              aria-pressed={scheme === 'light'}
-              className={`${css.themeButton} ${scheme === 'light' ? css.themeButtonActive : ''}`}
-              disabled={disabled}
-              onClick={() => { setScheme('light') }}
-            >
-              {t('customThemeLight')}
-            </button>
-            <button
-              type="button"
-              aria-pressed={scheme === 'dark'}
-              className={`${css.themeButton} ${scheme === 'dark' ? css.themeButtonActive : ''}`}
-              disabled={disabled}
-              onClick={() => { setScheme('dark') }}
-            >
-              {t('customThemeDark')}
-            </button>
+            <div className={css.segmentGroup} role="group" aria-label={t('customThemeMode')}>
+              <button
+                type="button"
+                aria-pressed={scheme === 'light'}
+                className={`${css.segmentButton} ${scheme === 'light' ? css.segmentButtonActive : ''}`}
+                disabled={disabled}
+                onClick={() => { setScheme('light') }}
+              >
+                {t('customThemeLight')}
+              </button>
+              <button
+                type="button"
+                aria-pressed={scheme === 'dark'}
+                className={`${css.segmentButton} ${scheme === 'dark' ? css.segmentButtonActive : ''}`}
+                disabled={disabled}
+                onClick={() => { setScheme('dark') }}
+              >
+                {t('customThemeDark')}
+              </button>
+            </div>
           </div>
 
           <div className={css.customThemeFields}>
