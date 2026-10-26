@@ -88,7 +88,7 @@ body[data-dsh-skin-center] .groupHeading {
 
 body[data-dsh-skin-center] .pluginLookGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 12px;
 }
 
@@ -102,6 +102,38 @@ body[data-dsh-skin-center] .pluginLookCard {
 
 body[data-dsh-skin-center] .pluginLookCard > .actions {
   margin-top: auto;
+}
+
+/* The head row gives its width to the name. The kind pill and the status pill
+   travel as one group that never breaks its own text, so when the row runs out
+   of room the group moves under the name instead of shaving it into an
+   ellipsis. */
+body[data-dsh-skin-center] .pluginLookCard .cardHead {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+body[data-dsh-skin-center] .pluginLookCard .cardHead .cardName {
+  flex: 1 1 auto;
+  /* The name keeps its own width while the row can still wrap, so the pills
+     move under it instead of shaving it; once the card is narrower than the
+     name itself, the ellipsis on .cardName takes over. */
+  min-width: min(100%, max-content);
+}
+
+body[data-dsh-skin-center] .headPills {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+body[data-dsh-skin-center] .headPills :is(.delegatedBadge, .badge) {
+  flex: none;
+  margin-left: 0;
+  white-space: nowrap;
 }
 
 body[data-dsh-skin-center] .pluginLookMark {
@@ -368,7 +400,7 @@ body[data-dsh-skin-center] .card:hover {
    card bottom so rows stay aligned. */
 body[data-dsh-skin-center] .skinGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
   gap: 20px 16px;
 }
 
@@ -1052,7 +1084,7 @@ body[data-dsh-skin-center] .wallpaperControls {
 
 body[data-dsh-skin-center] .wallpaperGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
   gap: 10px;
 }
 

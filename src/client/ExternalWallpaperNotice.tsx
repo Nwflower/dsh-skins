@@ -146,7 +146,9 @@ export function ExternalWallpaperNotice({ t }: { t: PropsLocale<'skinCenter'>['t
         <span className={`${css.swatch} ${css.pluginLookMark}`} aria-hidden="true" />
         <span className={css.cardName}>{t('externalWallpaperName')}</span>
         {!state.installed && (
-          <span className={css.delegatedBadge}>{t('externalWallpaperRecommended')}</span>
+          <span className={css.headPills}>
+            <span className={css.delegatedBadge}>{t('externalWallpaperRecommended')}</span>
+          </span>
         )}
       </div>
       <div className={css.cardTagline}>

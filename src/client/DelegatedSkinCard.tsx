@@ -189,12 +189,14 @@ export function DelegatedSkinCard(props: DelegatedSkinCardProps): ReactNode {
       <div className={css.cardHead}>
         <span className={css.swatch} style={{ background: accent }} aria-hidden="true" />
         <span className={css.cardName} title={manifest.nameEn}>{manifest.nameEn}</span>
-        <span className={css.delegatedBadge}>{t('delegatedSkinBadge')}</span>
-        {(isActive || isTrying) && (
-          <span className={`${css.badge} ${isActive && !isTrying ? css.badgeActive : css.badgeTrying}`}>
-            {isActive && !isTrying ? t('active') : t('tryingOn')}
-          </span>
-        )}
+        <span className={css.headPills}>
+          <span className={css.delegatedBadge}>{t('delegatedSkinBadge')}</span>
+          {(isActive || isTrying) && (
+            <span className={`${css.badge} ${isActive && !isTrying ? css.badgeActive : css.badgeTrying}`}>
+              {isActive && !isTrying ? t('active') : t('tryingOn')}
+            </span>
+          )}
+        </span>
       </div>
       <p className={css.delegatedDescription}>{description}</p>
       {blocker !== null && <p className={css.delegatedStatus} role="status">{blocker}</p>}
