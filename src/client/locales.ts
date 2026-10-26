@@ -8,6 +8,8 @@
 export type SkinCenterKey =
   | 'title'
   | 'cardDescription'
+  | 'pluginLooksTitle'
+  | 'externalWallpaperName'
   | 'externalWallpaperReadyTitle'
   | 'externalWallpaperReadyBody'
   | 'externalWallpaperMissingTitle'
@@ -175,6 +177,8 @@ export const en: Record<SkinCenterKey, string> = {
   externalWallpaperMissingTitle: 'Wallpaper Engine support moved to its own plugin',
   externalWallpaperMissingBody: 'This card no longer bundles a Wallpaper Engine bridge. To use Wallpaper Engine wallpapers, install {package} with the command below and restart dsh; it adds its own settings page for the wallpaper library, rendering and glass.',
   externalWallpaperLink: 'Open the wallpaper plugin docs',
+  pluginLooksTitle: 'Looks from other plugins',
+  externalWallpaperName: 'Wallpaper Engine',
   externalWallpaperRecommended: 'Recommended',
   externalWallpaperInstall: 'Install',
   externalWallpaperInstalling: 'Installing...',
@@ -339,6 +343,8 @@ export const zh: Record<SkinCenterKey, string> = {
   externalWallpaperMissingTitle: 'Wallpaper Engine 支持已独立成插件',
   externalWallpaperMissingBody: '本卡片不再自带 Wallpaper Engine 桥。要使用 Wallpaper Engine 壁纸，请用下面的命令安装 {package} 并重启 dsh；它自带壁纸库、渲染与玻璃的设置页。',
   externalWallpaperLink: '打开壁纸插件文档',
+  pluginLooksTitle: '插件提供的外观',
+  externalWallpaperName: 'Wallpaper Engine',
   externalWallpaperRecommended: '推荐',
   externalWallpaperInstall: '一键安装',
   externalWallpaperInstalling: '安装中…',

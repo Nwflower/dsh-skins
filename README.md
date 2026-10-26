@@ -101,9 +101,10 @@ interface. The Claude Code Desktop theme is one — it lives in [dsh-claude-styl
 (`dsh-claude-style`), which repaints the shell, sidebar, composer and conversation on its own. It is a
 **separate package**: nothing here bundles it, versions it or ships its files.
 
-Such a look is still a **skin you can select**. It gets its own full-width bar ABOVE the skin grid —
-the same row shape as the custom-theme card below it — carries a `Plugin theme` badge, and behaves
-like any other skin: try it on, apply it, and it is remembered across a reload. It does not take a tile
+Such a look is still a **skin you can select**. It gets its own card at the top of the page, under
+**Looks from other plugins** and beside the Wallpaper Engine card, carries a `Plugin theme` badge,
+and behaves like any other skin while the skin center is on: try it on, apply it, and it is
+remembered across a reload. It does not take a tile
 in the grid: a grid cell exists to show a preview image, and this package holds none for a look another
 plugin paints. What it never does is paint from here — the plugin paints it, and this package keeps
 the selection.

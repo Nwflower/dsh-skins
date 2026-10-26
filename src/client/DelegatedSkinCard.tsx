@@ -95,6 +95,11 @@ export interface DelegatedSkinCardProps {
    * the handoff working, not a plugin that failed to load.
    */
   yieldedToSkin: boolean
+  /**
+   * False while the skin center is switched off: the row still installs and
+   * links to its plugin, but offers no try-on or apply. Omitted means true.
+   */
+  selectable?: boolean
   busy: boolean
   disabled: boolean
   onTryOn: () => void
@@ -140,9 +145,9 @@ export function DelegatedSkinCard(props: DelegatedSkinCardProps): ReactNode {
   // (live and able to yield back), or it will the moment nothing else paints
   // (yielded to the skin this card has selected). A plugin that is installed
   // but neither live nor yielding is not on this page at all.
-  const applicable = payload.installed && theme.live
+  const applicable = props.selectable !== false && (payload.installed && theme.live
     ? theme.canYield
-    : payload.installed && yieldedToSkin
+    : payload.installed && yieldedToSkin)
   const claimable = payload.installed && theme.live && !theme.canYield
 
   const onInstall = (): void => {
@@ -169,14 +174,16 @@ export function DelegatedSkinCard(props: DelegatedSkinCardProps): ReactNode {
   // One line, and only where the row withholds the selection buttons: the
   // reason it withholds them. Everything else about the state is already on
   // screen (the badge says active, the buttons say pickable).
-  const blocker = claimable
+  const blocker = props.selectable === false
+    ? null
+    : claimable
     ? t('delegatedSkinNoHandoff')
     : payload.installed && !applicable && !yieldedToSkin
       ? t('delegatedSkinNotRunning')
       : null
 
   return (
-    <div className={`${css.card} ${css.delegatedCard}`} data-delegated-skin={manifest.id}>
+    <div className={`${css.card} ${css.delegatedCard} ${css.pluginLookCard}`} data-delegated-skin={manifest.id}>
       <div className={css.cardHead}>
         <span className={css.swatch} style={{ background: accent }} aria-hidden="true" />
         <span className={css.cardName} title={manifest.nameEn}>{manifest.nameEn}</span>

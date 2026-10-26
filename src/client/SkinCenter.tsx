@@ -83,8 +83,8 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
   const bubbleOpacity = useSyncExternalStore(background.subscribe, background.bubbleOpacity)
   const bubbleBlur = useSyncExternalStore(background.subscribe, background.bubbleBlur)
   const catalog = useSyncExternalStore(runtime.subscribe, runtime.catalog)
-  // Delegated rows render as bars above the grid; the grid holds only the
-  // asset skins this package loads, each with a preview image to show.
+  // Delegated rows render as cards at the head of the page; the grid holds only
+  // the asset skins this package loads, each with a preview image to show.
   const delegatedEntries = (catalog ?? []).filter(isDelegatedCatalogSkin)
   const isAssetSkin = (entry: CatalogSkin): boolean => !isDelegatedCatalogSkin(entry)
   const state = useSyncExternalStore(runtime.subscribe, runtime.controller.getState)
@@ -548,7 +548,37 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
       </div>
 
       <div className={css.cardBody}>
-            <ExternalWallpaperNotice t={t} />
+            {/* The looks other plugins paint lead the page as cards of their
+                own: they are installed and managed apart from the asset skins
+                below, so they read as neighbours of this page, not entries in
+                its grid. Selection waits for the skin center to be on. */}
+            <section className={css.pluginLooks} aria-labelledby="skin-center-plugin-looks">
+              <h3 className={css.groupHeading} id="skin-center-plugin-looks">{t('pluginLooksTitle')}</h3>
+              <div className={css.pluginLookGrid}>
+                <ExternalWallpaperNotice t={t} />
+                {delegatedEntries.map(entry => {
+                  const id = entry.manifest.id
+                  return (
+                    <DelegatedSkinCard
+                      key={id}
+                      t={t}
+                      skin={entry}
+                      theme={delegatedStates[id] ?? { live: false, canYield: false }}
+                      isActive={id === activeId && !previewing}
+                      isTrying={previewing && id === tryingId}
+                      yieldedToSkin={paintsOverDelegated(entry, delegatedStates[id])}
+                      selectable={enabled}
+                      busy={busyId === id}
+                      disabled={busyId !== null || uninstallingId !== null}
+                      onTryOn={() => { tryOn(entry) }}
+                      onExitTryOn={exitTryOn}
+                      onApply={() => { applySkin(id) }}
+                      onInstalled={() => { void runtime.refreshCatalog() }}
+                    />
+                  )
+                })}
+              </div>
+            </section>
             {state.stoodDown && (
               <div className={css.externalWallpaperNotice} role="status">
                 <div className={css.externalWallpaperTitle}>{t('stoodDownTitle')}</div>
@@ -743,34 +773,6 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
                   {error !== null && <div className={css.error}>{error}</div>}
 
                   <div className={css.list}>
-                    {delegatedEntries.map(entry => {
-                      const id = entry.manifest.id
-                      // A delegated skin is selected through the same switch
-                      // engine as any other, and paints through its own
-                      // plugin; the row renders that plugin's state instead of
-                      // a preview image and an uninstall this card has no
-                      // route for. It sits ABOVE the grid, beside the
-                      // custom-theme row below it: the two looks this package
-                      // does not paint are the two it lists as bars, and the
-                      // grid is for the asset directories it does load.
-                      return (
-                        <DelegatedSkinCard
-                          key={id}
-                          t={t}
-                          skin={entry}
-                          theme={delegatedStates[id] ?? { live: false, canYield: false }}
-                          isActive={id === activeId && !previewing}
-                          isTrying={previewing && id === tryingId}
-                          yieldedToSkin={paintsOverDelegated(entry, delegatedStates[id])}
-                          busy={busyId === id}
-                          disabled={busyId !== null || uninstallingId !== null}
-                          onTryOn={() => { tryOn(entry) }}
-                          onExitTryOn={exitTryOn}
-                          onApply={() => { applySkin(id) }}
-                          onInstalled={() => { void runtime.refreshCatalog() }}
-                        />
-                      )
-                    })}
                     <div className={css.skinGrid}>
                     {(() => {
                       const isActive = activeId === null && !previewing && !customThemeState.applied
