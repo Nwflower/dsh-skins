@@ -8,11 +8,13 @@
  * installed, because an installed-and-enabled plugin that the card hid until
  * the user went to the store is a plugin nobody finds.
  *
- * It is a full-width bar ABOVE the skin grid, not a tile among them: it has no
- * preview image (the plugin paints, and this package holds no screenshot of
- * it), so a tile sized for a 16:9 thumbnail would be mostly empty. The bar
- * carries the same head / tagline / actions shape as the custom-theme card
- * below the grid, so the two non-asset looks read as the same kind of row.
+ * It sits in the plugin-looks group at the head of the page, beside the
+ * Wallpaper Engine card, not among the skin tiles: it has no preview image
+ * (the plugin paints, and this package holds no screenshot of it), so a tile
+ * sized for a 16:9 thumbnail would be mostly empty. It carries the same
+ * head / description / actions shape as the card beside it, and the catalog
+ * tagline stays off the card because the localized description already says
+ * what applying it gives you.
  *
  * The body is the LOOK, not the row's state: a short description of what
  * applying it gives you. State belongs to the badge (this row is active) and
@@ -194,7 +196,6 @@ export function DelegatedSkinCard(props: DelegatedSkinCardProps): ReactNode {
           </span>
         )}
       </div>
-      <div className={css.cardTagline} title={manifest.tagline ?? ''}>{manifest.tagline ?? ''}</div>
       <p className={css.delegatedDescription}>{description}</p>
       {blocker !== null && <p className={css.delegatedStatus} role="status">{blocker}</p>}
       {error !== null && (

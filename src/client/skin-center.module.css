@@ -205,12 +205,6 @@ body[data-dsh-skin-center] .titleBadge {
   color: var(--dsw-alias-label-secondary, #6b7280);
 }
 
-body[data-dsh-skin-center] .intro {
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--dsw-alias-label-secondary);
-}
-
 body[data-dsh-skin-center] .themeRow {
   display: flex;
   align-items: center;

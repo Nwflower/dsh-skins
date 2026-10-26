@@ -603,7 +603,6 @@ export function SkinCenter({ t, runtime, theme, background, externalWallpaper, d
               ? (
                 <>
                   <div className={css.head}>
-                    <div className={css.intro} title={t('intro')}>{t('intro')}</div>
                     <div className={css.toolbar}>
                       <div className={css.themeRow}>
                         <span className={css.themeLabel}>{t('theme')}</span>
